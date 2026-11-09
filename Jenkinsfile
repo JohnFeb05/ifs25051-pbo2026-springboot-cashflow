@@ -26,10 +26,16 @@ pipeline {
                 docker {
                     image 'alpine:3.21'
                     reuseNode true
+                    // Memastikan Alpine berjalan sebagai root agar bisa menghapus sisa file dari container JDK sebelumnya
+                    args '-u root' 
                 }
             }
 
             steps {
+                // Menghapus paksa seluruh isi workspace yang terkunci sebelum Git checkout (Opsi 1)
+                deleteDir()
+                
+                // Mengambil ulang kode dari awal dengan bersih
                 checkout scm
             }
         }
