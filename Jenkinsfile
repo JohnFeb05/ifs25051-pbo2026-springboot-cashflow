@@ -26,17 +26,10 @@ pipeline {
                 docker {
                     image 'alpine:3.21'
                     reuseNode true
-                    // Memastikan Alpine berjalan sebagai root agar bisa menghapus sisa file dari container JDK sebelumnya
-                    args '-u root' 
                 }
             }
 
             steps {
-                // Menggunakan shell script agar dieksekusi sebagai root di dalam container,
-                // menghapus semua file normal (*) dan file tersembunyi (.[a-zA-Z0-9]*)
-                sh 'rm -rf * .[a-zA-Z0-9]* || true'
-                
-                // Mengambil ulang kode dari awal dengan bersih
                 checkout scm
             }
         }
