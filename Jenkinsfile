@@ -32,8 +32,9 @@ pipeline {
             }
 
             steps {
-                // Menghapus paksa seluruh isi workspace yang terkunci sebelum Git checkout (Opsi 1)
-                deleteDir()
+                // Menggunakan shell script agar dieksekusi sebagai root di dalam container,
+                // menghapus semua file normal (*) dan file tersembunyi (.[a-zA-Z0-9]*)
+                sh 'rm -rf * .[a-zA-Z0-9]* || true'
                 
                 // Mengambil ulang kode dari awal dengan bersih
                 checkout scm
